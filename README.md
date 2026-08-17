@@ -4,7 +4,7 @@ A League of Legends analytics platform: a Python crawler (WSL) ingests match dat
 
 ## Live demo https://leaguefrontend.vercel.app/
 
-Sister project(ingestion pipeline): https://github.com/mrbeetrootemezthe23rdceo/leaguepipeline
+Sister project(ingestion pipeline): https://github.com/emilmanninen/leaguepipeline
 
 ## Tech stack
 

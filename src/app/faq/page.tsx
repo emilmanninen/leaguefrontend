@@ -26,9 +26,8 @@ export default function Page() {
                   </CardHeader>
                   <CardContent className="flex flex-col gap-4 text-muted-foreground">
                     <p>
-                      I made this project for fun. I gathered data from Riot&apos;s official API
-                      and built visualizations showing popular trends across League of Legends
-                      champions.
+                      I gathered data from Riot&apos;s official API and built visualizations
+                      showing popular trends across League of Legends champions.
                     </p>
                     <p>
                       The data here is fairly limited, mainly because personal API keys come with
@@ -42,12 +41,12 @@ export default function Page() {
                       The technical details are documented on GitHub if you&apos;re curious.
                       Thanks for stopping by!{" "}
                       <a
-                        href="https://github.com/mrbeetrootemezthe23rdceo/leaguefrontend"
+                        href="https://github.com/emilmanninen/leaguefrontend"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="underline underline-offset-4 hover:text-foreground"
                       >
-                        https://github.com/mrbeetrootemezthe23rdceo/leaguefrontend
+                        https://github.com/emilmanninen/leaguefrontend
                       </a>
                     </p>
                   </CardContent>
