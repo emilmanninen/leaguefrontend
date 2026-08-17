@@ -27,7 +27,7 @@ const data = {
     },
     {
       title: "About",
-      url: "/faq",
+      url: "/about",
       icon: (
         <FileTextIcon
         />
