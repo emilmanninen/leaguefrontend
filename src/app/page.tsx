@@ -1,9 +1,6 @@
 import { shapeMatchesByMonth, findMostActiveMonth } from "@/lib/transform";
-import { AppSidebar } from "@/components/app-sidebar"
 import { ChartAreaInteractive } from "@/components/chart-area-interactive"
 import { SectionCards } from "@/components/section-cards"
-import { SiteHeader } from "@/components/site-header"
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import LeaderboardTable from "@/components/leaderboard-table"
 import pool from "@/lib/db"
@@ -111,47 +108,26 @@ export default async function Page() {
   const mostActiveMonth = findMostActiveMonth(matchesByMonth);
 
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
-        } as React.CSSProperties
-      }
-    >
-      <AppSidebar variant="inset" />
-      <SidebarInset>
-        <SiteHeader />
-        <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              <SectionCards
-                mostPlayedChampion={mostPlayedChampion}
-                highestWinRateChampion={highestWinRateChampion}
-                totalMatches={totalMatches}
-                mostActiveMonth={mostActiveMonth}
-              />
-              <div className="px-4 lg:px-6">
-                <ChartAreaInteractive data={matchesByMonth} />
-              </div>
-              <div className="px-4 lg:px-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Champion Leaderboard</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <LeaderboardTable roleData={leaderboard} championData={championLeaderboard} />
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-          <footer className="px-4 py-4 text-xs text-muted-foreground lg:px-6">
-            This project isn&apos;t endorsed by Riot Games and doesn&apos;t reflect the views or opinions of
-            Riot Games or anyone officially involved in producing or managing League of Legends.
-          </footer>
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+    <>
+      <SectionCards
+        mostPlayedChampion={mostPlayedChampion}
+        highestWinRateChampion={highestWinRateChampion}
+        totalMatches={totalMatches}
+        mostActiveMonth={mostActiveMonth}
+      />
+      <div className="px-4 lg:px-6">
+        <ChartAreaInteractive data={matchesByMonth} />
+      </div>
+      <div className="px-4 lg:px-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Champion Leaderboard</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <LeaderboardTable roleData={leaderboard} championData={championLeaderboard} />
+          </CardContent>
+        </Card>
+      </div>
+    </>
   )
 }
