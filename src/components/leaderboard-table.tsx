@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import { championIconUrl } from '@/lib/ddragon';
 
 interface RoleRow {
@@ -77,15 +77,22 @@ export default function LeaderboardTable({
   });
 
   function SortableHead({ label, sortKeyName }: { label: string; sortKeyName: SortKey }) {
+    const isActive = sortKey === sortKeyName;
+    const Icon = isActive ? (sortDesc ? ArrowDown : ArrowUp) : ArrowUpDown;
+
     return (
-      <TableHead className="text-right">
-        <span
+      <TableHead
+        className="text-right"
+        aria-sort={isActive ? (sortDesc ? 'descending' : 'ascending') : 'none'}
+      >
+        <button
+          type="button"
           className="inline-flex items-center gap-1 cursor-pointer select-none rounded px-2 py-1 -mx-2 -my-1 hover:bg-accent"
           onClick={() => handleSort(sortKeyName)}
         >
           {label}
-          <ArrowUpDown className="h-3 w-3 opacity-50" />
-        </span>
+          <Icon className="h-3 w-3 opacity-50" />
+        </button>
       </TableHead>
     );
   }
@@ -129,7 +136,7 @@ export default function LeaderboardTable({
                 <div className="flex items-center gap-2">
                   <img
                     src={championIconUrl(row.riot_id)}
-                    alt={row.champion_name}
+                    alt=""
                     className="size-6 rounded-full"
                   />
                   {row.champion_name}

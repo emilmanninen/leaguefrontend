@@ -121,7 +121,7 @@ export default async function Page() {
       <div className="px-4 lg:px-6">
         <Card>
           <CardHeader>
-            <CardTitle>Champion Leaderboard</CardTitle>
+            <CardTitle as="h2">Champion Leaderboard</CardTitle>
           </CardHeader>
           <CardContent>
             <LeaderboardTable roleData={leaderboard} championData={championLeaderboard} />

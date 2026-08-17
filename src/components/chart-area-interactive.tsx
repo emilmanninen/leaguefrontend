@@ -73,7 +73,7 @@ export function ChartAreaInteractive({ data }: { data: MatchesByMonth[] }) {
   return (
     <Card className="@container/card">
       <CardHeader>
-        <CardTitle>Matches by Month</CardTitle>
+        <CardTitle as="h2">Matches by Month</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">
             Tracked matches played, by month
@@ -136,7 +136,7 @@ export function ChartAreaInteractive({ data }: { data: MatchesByMonth[] }) {
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <AreaChart data={filteredData}>
+          <AreaChart accessibilityLayer data={filteredData}>
             <defs>
               <linearGradient id="fillMatches" x1="0" y1="0" x2="0" y2="1">
                 <stop
@@ -188,6 +188,28 @@ export function ChartAreaInteractive({ data }: { data: MatchesByMonth[] }) {
             />
           </AreaChart>
         </ChartContainer>
+        <table className="sr-only">
+          <caption>Matches tracked by month</caption>
+          <thead>
+            <tr>
+              <th scope="col">Month</th>
+              <th scope="col">Matches</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.map((item) => (
+              <tr key={item.month}>
+                <td>
+                  {new Date(item.month).toLocaleDateString("en-US", {
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </td>
+                <td>{item.matches.toLocaleString("en-US")}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </CardContent>
     </Card>
   )

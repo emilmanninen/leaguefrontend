@@ -5,7 +5,7 @@ export default function Page() {
     <div className="px-4 lg:px-6">
       <Card>
         <CardHeader>
-          <CardTitle>About project</CardTitle>
+          <CardTitle as="h2">About project</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 text-muted-foreground">
           <p>
