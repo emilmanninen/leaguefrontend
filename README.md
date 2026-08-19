@@ -1,6 +1,6 @@
 # League Analytics Platform
 
-A League of Legends analytics platform: a Python crawler (WSL) ingests match data from Riot's API into a Supabase Postgres database. The frontend is Next.js + shadcn/ui (React 19, TypeScript), querying Postgres directly via raw `pg` Pool calls — no ORM. Business logic is separated out into tested modules, with Vitest covering pure logic and mocked-Pool queries. GitHub Actions runs the test suite on every push/PR to `main`. Deployed on Vercel.
+A League of Legends analytics platform: a Python crawler (WSL) ingests match data from Riot's API into a Supabase Postgres database. The frontend is Next.js + shadcn/ui (React 19, TypeScript), querying Postgres directly via raw `pg` Pool calls — no ORM. Business logic is separated out into tested modules, with Vitest covering pure logic (query-layer test coverage is on the roadmap). GitHub Actions runs the test suite on every push/PR to `main`. Deployed on Vercel.
 
 ## Live demo https://leaguefrontend.vercel.app/
 
@@ -12,7 +12,7 @@ Sister project(ingestion pipeline): https://github.com/emilmanninen/leaguepipeli
 - **Backend/data access**: raw `pg` Pool queries (no ORM)
 - **Database**: PostgreSQL (Supabase)
 - **Data ingestion**: Python crawler (WSL), Riot API
-- **Testing**: Vitest (pure logic + mocked-Pool queries)
+- **Testing**: Vitest (pure logic; query-layer coverage is on the roadmap)
 - **CI/CD**: GitHub Actions
 - **Deployment**: Vercel
 
@@ -24,8 +24,7 @@ Riot API → Python crawler (WSL) → Supabase Postgres ← raw pg Pool ← Next
 
 Business logic lives outside route handlers and components, in tested modules:
 
-- `src/lib/transforms.ts` — pure data-shaping functions (e.g. `shapeMatchesByMonth`, `findMostActiveMonth`)
-- `src/lib/queries/leaderboard.ts` — SQL query functions (e.g. `fetchLeaderboard`), tested against a mocked Pool
+- `src/lib/transform.ts` — pure data-shaping functions (e.g. `shapeMatchesByMonth`, `findMostActiveMonth`)
 
 **Why raw `pg` instead of an ORM?** I wanted full visibility into the SQL actually hitting the database, rather than trusting an abstraction layer to write it for me. The trade-off is more boilerplate and no compile-time query safety — a fair one for a portfolio project meant to demonstrate SQL fluency directly.
 
@@ -74,11 +73,12 @@ python crawler.py
 npm run test
 ```
 
-Currently covers pure logic (`transforms.ts`) and query functions against a mocked Pool. Component rendering tests and a real Postgres integration test in CI are deferred — see Roadmap.
+Currently covers pure logic (`transform.ts`) and a Vitest-wiring sanity check. Query-layer tests, component rendering tests, and a real Postgres integration test in CI are deferred — see Roadmap.
 
 ## Roadmap / known limitations
 
-- [ ] Real Postgres integration test in CI (currently mocked-Pool only)
+- [ ] Tests for the query layer (`page.tsx`'s queries are currently untested — the one query function that had mocked-Pool test coverage, `fetchLeaderboard`, was deleted 2026-08-19 along with the unused `/api/leaderboard` route it only existed for)
+- [ ] Real Postgres integration test in CI (currently no DB-backed tests at all)
 - [ ] Component rendering tests (blocked on a Babel/Rolldown peer-dependency conflict between `@testing-library/react` and shadcn's dependency tree)
 
 ## Legal

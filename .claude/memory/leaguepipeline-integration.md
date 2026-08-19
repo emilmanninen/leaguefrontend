@@ -10,10 +10,12 @@ either side's integration surface changes.
 
 This app and the `leaguepipeline` repo (Python crawler) both connect directly to the same
 Supabase Postgres via `DATABASE_URL` — there is no API between them. This app re-implements
-its own SQL against `matches`/`participants`/`champions` (see `src/app/page.tsx`,
-`src/lib/queries/leaderboard.ts`); the leaderboard query is a hand-kept duplicate of
-`leaguepipeline`'s `queries.sql`. Nothing enforces that the two stay in sync — a column
-rename or table drop on the pipeline side only surfaces here as a runtime query failure.
+its own SQL against `matches`/`participants`/`champions` (see `src/app/page.tsx`, the only
+place these queries live now — `src/lib/queries/leaderboard.ts` and its unused
+`/api/leaderboard` route were deleted 2026-08-19 as dead/duplicate code); the leaderboard
+query is a hand-kept duplicate of `leaguepipeline`'s `queries.sql`. Nothing enforces that the
+two stay in sync — a column rename or table drop on the pipeline side only surfaces here as a
+runtime query failure.
 
 Verified as of the snapshot above: all columns this app queries
 (`champions.name/riot_id`, `participants.champion_id/role/win/kills/deaths/assists`,
