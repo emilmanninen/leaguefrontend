@@ -1,3 +1,5 @@
+@.claude/memory/MEMORY.md
+
 # Project context
 
 This is the frontend for a League of Legends match analytics project.
@@ -17,7 +19,7 @@ This app is read-only — never writes to the database.
 
 ## Site structure
 - `/` — Main dashboard (real Postgres data, champion leaderboard, sortable table)
-- `/faq` — About page
+- `/about` — About page
 
 ## Working style
 Go ahead and write/edit the frontend code directly — I'm fine with that.
