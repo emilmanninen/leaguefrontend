@@ -48,11 +48,16 @@ export function ChartAreaInteractive({ data }: { data: MatchesByMonth[] }) {
   const isMobile = useIsMobile()
   const [timeRange, setTimeRange] = React.useState("6m")
 
-  React.useEffect(() => {
+  // Force the 3-month view the moment the viewport becomes mobile-sized.
+  // Adjusted during render (not in an effect) so the switch happens in the
+  // same commit instead of an extra render+paint pass after mount.
+  const [prevIsMobile, setPrevIsMobile] = React.useState(isMobile)
+  if (isMobile !== prevIsMobile) {
+    setPrevIsMobile(isMobile)
     if (isMobile) {
       setTimeRange("3m")
     }
-  }, [isMobile])
+  }
 
   const filteredData = data.filter((item) => {
     const date = new Date(item.month)

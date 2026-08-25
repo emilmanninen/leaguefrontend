@@ -48,6 +48,39 @@ const ROLE_LABELS: Record<string, string> = {
 type SortKey = 'games_played' | 'win_rate_pct' | 'avg_kills' | 'avg_deaths' | 'avg_assists';
 type ViewMode = 'role' | 'champion';
 
+function SortableHead({
+  label,
+  sortKeyName,
+  activeSortKey,
+  sortDesc,
+  onSort,
+}: {
+  label: string;
+  sortKeyName: SortKey;
+  activeSortKey: SortKey;
+  sortDesc: boolean;
+  onSort: (key: SortKey) => void;
+}) {
+  const isActive = activeSortKey === sortKeyName;
+  const Icon = isActive ? (sortDesc ? ArrowDown : ArrowUp) : ArrowUpDown;
+
+  return (
+    <TableHead
+      className="text-right"
+      aria-sort={isActive ? (sortDesc ? 'descending' : 'ascending') : 'none'}
+    >
+      <button
+        type="button"
+        className="inline-flex items-center gap-1 cursor-pointer select-none rounded px-2 py-1 -mx-2 -my-1 hover:bg-accent"
+        onClick={() => onSort(sortKeyName)}
+      >
+        {label}
+        <Icon className="h-3 w-3 opacity-50" />
+      </button>
+    </TableHead>
+  );
+}
+
 export default function LeaderboardTable({
   roleData,
   championData,
@@ -76,27 +109,6 @@ export default function LeaderboardTable({
     return sortDesc ? bVal - aVal : aVal - bVal;
   });
 
-  function SortableHead({ label, sortKeyName }: { label: string; sortKeyName: SortKey }) {
-    const isActive = sortKey === sortKeyName;
-    const Icon = isActive ? (sortDesc ? ArrowDown : ArrowUp) : ArrowUpDown;
-
-    return (
-      <TableHead
-        className="text-right"
-        aria-sort={isActive ? (sortDesc ? 'descending' : 'ascending') : 'none'}
-      >
-        <button
-          type="button"
-          className="inline-flex items-center gap-1 cursor-pointer select-none rounded px-2 py-1 -mx-2 -my-1 hover:bg-accent"
-          onClick={() => handleSort(sortKeyName)}
-        >
-          {label}
-          <Icon className="h-3 w-3 opacity-50" />
-        </button>
-      </TableHead>
-    );
-  }
-
   return (
     <div className="flex flex-col gap-4">
       <ToggleGroup
@@ -122,11 +134,11 @@ export default function LeaderboardTable({
           <TableRow>
             <TableHead>Champion</TableHead>
             {view === 'role' && <TableHead>Role</TableHead>}
-            <SortableHead label="Games" sortKeyName="games_played" />
-            <SortableHead label="Win Rate" sortKeyName="win_rate_pct" />
-            <SortableHead label="K" sortKeyName="avg_kills" />
-            <SortableHead label="D" sortKeyName="avg_deaths" />
-            <SortableHead label="A" sortKeyName="avg_assists" />
+            <SortableHead label="Games" sortKeyName="games_played" activeSortKey={sortKey} sortDesc={sortDesc} onSort={handleSort} />
+            <SortableHead label="Win Rate" sortKeyName="win_rate_pct" activeSortKey={sortKey} sortDesc={sortDesc} onSort={handleSort} />
+            <SortableHead label="K" sortKeyName="avg_kills" activeSortKey={sortKey} sortDesc={sortDesc} onSort={handleSort} />
+            <SortableHead label="D" sortKeyName="avg_deaths" activeSortKey={sortKey} sortDesc={sortDesc} onSort={handleSort} />
+            <SortableHead label="A" sortKeyName="avg_assists" activeSortKey={sortKey} sortDesc={sortDesc} onSort={handleSort} />
           </TableRow>
         </TableHeader>
         <TableBody>
